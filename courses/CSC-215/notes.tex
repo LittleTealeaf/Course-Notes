@@ -5,19 +5,36 @@
 \author{Thomas Kwashnak}
 \usepackage{amsmath}
 \usepackage{soul}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fullpage}
 \usepackage{algorithm2e}
+\usepackage{color}
 \usepackage{listings}
 \usepackage[margin=1in]{geometry}
 
-\begin{document}
-\maketitle
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
 
 % Formatting
-\setlength{\parindent}{0pt}.
-\setlength{\parskip}{\baselineskip}
-\lstset{numbers=left, numberstyle=\footnotesize, frame=l} 
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\footnotesize,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
 \RestyleAlgo{ruled}
 
+
+\begin{document}
+\maketitle
+\setlength{\parindent}{0pt}.
+\setlength{\parskip}{\baselineskip}
 \newpage
 \tableofcontents
 \newpage
@@ -26,6 +43,42 @@
 \section{Mathematical Background}
 \newpage
 \section{Searching}
+\subsection{Sequential Search}
+In an unsorted array, one of the easiest sorting techniques is to just sequentially look through every index to find the item. 
+\begin{lstlisting}[language=java]
+static int sequential(int[] A, int K) {
+    for(int i = 0; i < A.length; i++) {
+        if(A[i] == K) {
+            return i;
+        }
+    }
+    return A.length;
+}
+\end{lstlisting}
+While this also works on a sorted array, there is another much-easier method of searching through a sorted array:
+\subsection{Binary Search}
+If we know that an array is sorted, then we can perform what is called Binary Search. The idea of binary search is to ask a "higher or lower?" question with a pivot in the array, such that it reduces half of the array every time.\\
+The pseudocode is as follows
+\begin{algorithm}
+    \caption{Binary Search on a Sorted Array}
+    \KwIn{A sorted array: $A$, and the integer you wish to find: $k$}
+    \KwOut{The index $i$ where $k$ can be found in array $A$, or $-1$ if $k$ is not in $A$}
+    $\text{low} = 0$\\
+    $\text{high} = A.\text{length} - 1$\\
+    \While{$\text{low} \le \text{high}$}{
+        $\text{mid} = (\text{low} + \text{high}) / 2$\\
+        \uIf{$A[\text{mid}] < k$}{
+            $\text{low} = \text{mid} + 1$
+        }
+        \uElseIf{$A[\text{mid}] > k$}{
+            $\text{high} = \text{mid} - 1$
+        }
+        \uElse{
+            \Return{mid}
+        }
+    }
+    \Return{$-1$}    
+\end{algorithm}
 \newpage
 \section{Algorithm Analysis}
 \newpage
